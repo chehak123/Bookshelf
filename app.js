@@ -16,6 +16,24 @@ app.use(bodyParser.urlencoded({
 app.use(express.static("public"));
 
 
+app.get("/", function(req, res) {
+    res.render("home", {
+        homeStartingContent: homeStartingContent   //js objects are key value pairs (key(passed in ejs file):value(in app.js))
+    });
+  });
+
+  app.get("/about", function(req, res) {
+    res.render("about", {
+        aboutContent: aboutContent   //js objects are key value pairs (key(passed in ejs file):value(in app.js))
+    });
+  });
+
+  app.get("/contact", function(req, res) {
+    res.render("home", {
+        contactContent: contactContent   //js objects are key value pairs (key(passed in ejs file):value(in app.js))
+    });
+  });
+
 
 
 app.listen(3000, function() {
