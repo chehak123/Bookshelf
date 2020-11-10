@@ -29,7 +29,7 @@ app.get("/", function(req, res) {
   });
 
   app.get("/contact", function(req, res) {
-    res.render("home", {
+    res.render("contact", {
         contactContent: contactContent   //js objects are key value pairs (key(passed in ejs file):value(in app.js))
     });
   });
