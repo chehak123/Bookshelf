@@ -16,6 +16,8 @@ app.use(bodyParser.urlencoded({
 app.use(express.static("public"));
 
 
+var posts=[];
+
 app.get("/", function(req, res) {
     res.render("home", {
         homeStartingContent: homeStartingContent   //js objects are key value pairs (key(passed in ejs file):value(in app.js))
@@ -39,7 +41,16 @@ app.get("/", function(req, res) {
   });
 
   app.post("/compose",function(req,res){      // post req for compose page as we have apost form in that page
-    console.log(req.body.posttitle);
+
+    const post={                                //js object
+       title: req.body.posttitle,
+       content: req.body.posttext
+    };
+
+    posts.push(post);
+
+    console.log(posts);
+
   });
 
 
