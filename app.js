@@ -34,6 +34,19 @@ app.get("/", function(req, res) {
     });
   });
 
+  app.get("/compose", function(req, res) {
+    res.render("compose", {});
+  });
+
+  app.post("/compose",function(req,res){      // post req for compose page as we have apost form in that page
+    console.log(req.body.posttitle);
+  });
+
+
+
+
+
+
 
 
 app.listen(3000, function() {
