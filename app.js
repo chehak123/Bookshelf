@@ -16,11 +16,12 @@ app.use(bodyParser.urlencoded({
 app.use(express.static("public"));
 
 
-var posts=[];
+var posts=[];                  //made an array to hold all the posts
 
 app.get("/", function(req, res) {
     res.render("home", {
-        homeStartingContent: homeStartingContent   //js objects are key value pairs (key(passed in ejs file):value(in app.js))
+      posts: posts, 
+      homeStartingContent: homeStartingContent   //js objects are key value pairs (key(passed in ejs file):value(in app.js))
     });
   });
 
@@ -47,9 +48,8 @@ app.get("/", function(req, res) {
        content: req.body.posttext
     };
 
-    posts.push(post);
-
-    console.log(posts);
+    posts.push(post);                   // pushed the post object created to posts array
+    res.redirect("/");                    // redirecting to home page after publishing
 
   });
 

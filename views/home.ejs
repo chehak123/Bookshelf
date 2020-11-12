@@ -1,5 +1,12 @@
 <%- include('partials/header'); -%>
 <h1>Home</h1>
-<p><%= homeStartingContent %></p>  
+<p><%= homeStartingContent %></p> 
+
+<%
+var i;
+for (i = 0; i < posts.length; i++) {
+  console.log(posts[i].title);
+}
+ %>
 
 <%- include('partials/footer'); -%>
