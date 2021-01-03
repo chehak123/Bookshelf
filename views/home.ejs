@@ -5,13 +5,11 @@
 
 
 <% posts.forEach(function(post){ %>
-   <% const truncated=post.content.substring(0,100) +" ..." ;  %>
-
+   <% const truncated = post.body.substring(0,100) +" ..." ;  %>
     <h1><%= post.title %></h1>
     <p><%= truncated %>
       <a href="/posts/<%=post.title %>">  Read More</a>
     </p>
-
 <% }) %>
     
 
