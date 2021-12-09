@@ -87,6 +87,8 @@ app.get("/", function(req, res) {
             posttitle:post.title,
             postbookmark:post.bookmark,
             postcontent:post.body,
+            postauthor:post.author,
+            postgenre:post.genre,
             postid:post._id
             // console.log(postid);
           });
@@ -122,6 +124,8 @@ app.get("/", function(req, res) {
             posttitle:post.title,
             postcontent:post.body,
             postid:post._id,
+            postgenre:post.genre,
+            postauthor:post.author,
             postbookmark:post.bookmark
           });
         }
