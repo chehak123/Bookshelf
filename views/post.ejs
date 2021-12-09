@@ -1,8 +1,16 @@
 <%- include('partials/header'); -%>
 
+<form method="POST" action="/posts/<%= postid %>" id="bookmarkform">
+
+  <% if(postbookmark==1){ %>
+    <button type="submit" class="btn btn-success" id = "bookmarking">Bookmarked</button>
+  <% } else { %>
+        <button type="submit" class="btn btn-success" id = "bookmarking">Bookmark</button>
+  <% } %>
+  
+</form>
+
 <h1><%= posttitle %></h1>
 <p><%= postcontent %></p> 
-
-
 
 <%- include('partials/footer'); -%>

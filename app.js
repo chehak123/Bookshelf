@@ -5,24 +5,24 @@ const _= require("lodash")
 const mongoose=require("mongoose");
 
 //mongoose connect
-mongoose.connect("mongodb://localhost:27017/blogDB", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect("mongodb+srv://chehak:123@cluster0.ohkb1.mongodb.net/commentDB" , {
+  useNewUrlParser : true, 
+  useUnifiedTopology: true 
+} );
 
 //schema
 const postSchema = {
   title: String,
   body: String,
+  author:String,
+  genre: String,
+  image:String,
+  summary:String,
+  bookmark:Number
 };
 
 //model
 const Post = mongoose.model("Post", postSchema);
-
-
-const homeStartingContent = "Lacus vel facilisis volutpat est velit egestas dui id ornare. Semper auctor neque vitae tempus quam. Sit amet cursus sit amet dictum sit amet justo. Viverra tellus in hac habitasse. Imperdiet proin fermentum leo vel orci porta. Donec ultrices tincidunt arcu non sodales neque sodales ut. Mattis molestie a iaculis at erat pellentesque adipiscing. Magnis dis parturient montes nascetur ridiculus mus mauris vitae ultricies. Adipiscing elit ut aliquam purus sit amet luctus venenatis lectus. Ultrices vitae auctor eu augue ut lectus arcu bibendum at. Odio euismod lacinia at quis risus sed vulputate odio ut. Cursus mattis molestie a iaculis at erat pellentesque adipiscing.";
-const aboutContent = "Hac habitasse platea dictumst vestibulum rhoncus est pellentesque. Dictumst vestibulum rhoncus est pellentesque elit ullamcorper. Non diam phasellus vestibulum lorem sed. Platea dictumst quisque sagittis purus sit. Egestas sed sed risus pretium quam vulputate dignissim suspendisse. Mauris in aliquam sem fringilla. Semper risus in hendrerit gravida rutrum quisque non tellus orci. Amet massa vitae tortor condimentum lacinia quis vel eros. Enim ut tellus elementum sagittis vitae. Mauris ultrices eros in cursus turpis massa tincidunt dui.";
-const contactContent = "Scelerisque eleifend donec pretium vulputate sapien. Rhoncus urna neque viverra justo nec ultrices. Arcu dui vivamus arcu felis bibendum. Consectetur adipiscing elit duis tristique. Risus viverra adipiscing at in tellus integer feugiat. Sapien nec sagittis aliquam malesuada bibendum arcu vitae. Consequat interdum varius sit amet mattis. Iaculis nunc sed augue lacus. Interdum posuere lorem ipsum dolor sit amet consectetur adipiscing elit. Pulvinar elementum integer enim neque. Ultrices gravida dictum fusce ut placerat orci nulla. Mauris in aliquam sem fringilla ut morbi tincidunt. Tortor posuere ac ut consequat semper viverra nam libero.";
 
 const app = express();
 
@@ -39,27 +39,11 @@ app.use(express.static("public"));
 app.get("/", function(req, res) {
   Post.find({}, function(err, posts){
 
-    res.render("home", {
- 
-      homeStartingContent: homeStartingContent,
- 
+    res.render("home", { 
       posts: posts
- 
       });
  
   })
-  });
-
-  app.get("/about", function(req, res) {
-    res.render("about", {
-        aboutContent: aboutContent   //js objects are key value pairs (key(passed in ejs file):value(in app.js))
-    });
-  });
-
-  app.get("/contact", function(req, res) {
-    res.render("contact", {
-        contactContent: contactContent   //js objects are key value pairs (key(passed in ejs file):value(in app.js))
-    });
   });
 
   app.get("/compose", function(req, res) {
@@ -68,14 +52,14 @@ app.get("/", function(req, res) {
 
   app.post("/compose",function(req,res){      // post req for compose page as we have apost form in that page
 
-    // const post={                                //js object
-    //    title: req.body.posttitle,
-    //    content: req.body.posttext
-    // };
-
     const post_in_db = new Post({
       title: req.body.posttitle,
       body: req.body.posttext,
+      author:req.body.postauthor,
+      genre:req.body.postgenre,
+      image:req.body.postimage,
+      summary:req.body.summary,
+      bookmark:0
     });
 
     post_in_db.save();
@@ -87,17 +71,58 @@ app.get("/", function(req, res) {
 
 
   app.get("/posts/:topic",function(req,res){
-    //  console.log(req.params.topic);
+    //  console.log(req.params.topic);/
+
+    // console.log(req.params.topic +"00000000000000");
+    var x=req.params.topic;
+    Post.find({}, function(err, posts){
+      posts.forEach(function(post){
+
+        const pagetitle= post._id;         //using lodash 
+  // console.log(req.params.topic);
+  // console.log(pagetitle);
+        if(x==pagetitle){
+          console.log("xyz");
+          res.render("post", {
+            posttitle:post.title,
+            postbookmark:post.bookmark,
+            postcontent:post.body,
+            postid:post._id
+            // console.log(postid);
+          });
+        }
+       })
+   
+    })
+
+  });
+
+  app.post("/posts/:topic",function(req,res){
+     console.log(req.params.topic);
+
+    var id=req.params.topic;
     
     Post.find({}, function(err, posts){
       posts.forEach(function(post){
 
-        const pagetitle= _.lowerCase(post.title);         //using lodash 
+        const pagetitle= post._id;         //using lodash 
   
         if(req.params.topic==pagetitle){
+          if(post.bookmark==0){
+            console.log("a");
+            post.bookmark=1;
+            post.save();
+          }else{
+            console.log("b");
+            post.bookmark=0;
+            post.save();
+          }
+
           res.render("post", {
             posttitle:post.title,
-            postcontent:post.body
+            postcontent:post.body,
+            postid:post._id,
+            postbookmark:post.bookmark
           });
         }
        })
