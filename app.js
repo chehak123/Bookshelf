@@ -18,6 +18,7 @@ const postSchema = {
   genre: String,
   image:String,
   summary:String,
+  headings: Array,
   bookmark:Number
 };
 
@@ -89,7 +90,8 @@ app.get("/", function(req, res) {
             postcontent:post.body,
             postauthor:post.author,
             postgenre:post.genre,
-            postid:post._id
+            postid:post._id,
+            headings:post.headings
             // console.log(postid);
           });
         }
@@ -126,7 +128,8 @@ app.get("/", function(req, res) {
             postid:post._id,
             postgenre:post.genre,
             postauthor:post.author,
-            postbookmark:post.bookmark
+            postbookmark:post.bookmark,
+            headings:post.headings
           });
         }
        })

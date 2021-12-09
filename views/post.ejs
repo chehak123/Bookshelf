@@ -1,4 +1,6 @@
-<%- include('partials/header'); -%>
+ <%- include('partials/header'); -%>
+
+    <div style="margin-top: 10vh;" class="container">
 
 <form method="POST" action="/posts/<%= postid %>" id="bookmarkform">
 
@@ -16,6 +18,40 @@
 
 <button class="btn btn-grey" style="margin-bottom: 20px;"><%= postgenre %></button>
 
-<p><%= postcontent %></p> 
+<div class="row" style="display: inline-flex;">
+<div class="col col-lg-3" id="list-example" class="list-group">
+  <% headings.forEach(function(heading){ %>
+  <a class="list-group-item list-group-item-action" href="#<%=heading[0]%>"><%=heading[0]%></a>
+ <%})%>
+</div>
+
+
+<div class="col col-lg-9" style=" position: relative; height: 500px; overflow-y: scroll;" data-spy="scroll" data-target="#list-example" data-offset="0" class="scrollspy-example">
+  
+  <% headings.forEach(function(heading){ %>
+    <h4 id="<%=heading[0]%>"><%=heading[0] %></h4>
+    <p><%=heading[1]%></p>
+    <br><br><br><br>
+  <%})%>
+ 
+</div>
+</div>
+
+<!-- <scrip/t> -->
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+<script>  
+$(scrollspy-example).scroll(function(){
+    $("list-group-item").removeClass("active");
+    $(".active").parent().addClass("active");
+  })
+</script>
+
+
+
+<!-- <p><%= postcontent %></p>  -->
 
 <%- include('partials/footer'); -%>
